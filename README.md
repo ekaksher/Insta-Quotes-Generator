@@ -11,4 +11,6 @@ Upcoming Changes:<br>
 
 <b>Sample Images:</b><br>
 ![](Sample_Images/sample_quote_black.png)
+![](Sample_Images/quote_img.png)
 ![](Sample_Images/sample_quote_white.png)
+
