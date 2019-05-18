@@ -3,6 +3,8 @@ And Create An Instagram Format Post For The Same."""
 import requests
 from bs4 import BeautifulSoup
 from PIL import Image, ImageDraw, ImageFont
+import matplotlib.font_manager as fm            #Matplotlib Font Manager. Allows font searching & font fallbacks 
+
 def generate_pic(text_color=(225, 225, 225), background_color=(0, 0, 0)):
     """This function takes the quote and creates an image for the same
     It uses standard instagram size and can take an colour background.
@@ -10,7 +12,7 @@ def generate_pic(text_color=(225, 225, 225), background_color=(0, 0, 0)):
     # (612,612) is used for instagram format size.
     img = Image.new('RGB', (612, 612), color=background_color)
     draw_image = ImageDraw.Draw(img)
-    selected_font = ImageFont.truetype('cinzel.otf', 30)
+    selected_font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='cinzel.otf')),30)      #Uses matplotlib.fontmanager to locate font
     sum_quote = 0
     # this loops gets textsize of every letter in the quotes and adds it.
     for letter in QUOTE:
