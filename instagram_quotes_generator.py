@@ -3,7 +3,8 @@ And Create An Instagram Format Post For The Same."""
 import requests
 from bs4 import BeautifulSoup
 from PIL import Image, ImageDraw, ImageFont
-import matplotlib.font_manager as fm            #Matplotlib Font Manager. Allows font searching & font fallbacks 
+import matplotlib.font_manager as fm
+from instapy_cli import client
 
 def generate_pic(text_color=(225, 225, 225), background_color=(0, 0, 0)):
     """This function takes the quote and creates an image for the same
@@ -12,7 +13,7 @@ def generate_pic(text_color=(225, 225, 225), background_color=(0, 0, 0)):
     # (612,612) is used for instagram format size.
     img = Image.new('RGB', (612, 612), color=background_color)
     draw_image = ImageDraw.Draw(img)
-    selected_font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='cinzel.otf')),30)      #Uses matplotlib.fontmanager to locate font
+    selected_font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='cinzel.otf')),30)
     sum_quote = 0
     # this loops gets textsize of every letter in the quotes and adds it.
     for letter in QUOTE:
@@ -41,6 +42,15 @@ def generate_pic(text_color=(225, 225, 225), background_color=(0, 0, 0)):
     draw_image.text(((612/2 - x_2/2), (612/2-y_2/2)), fresh_sentence, align="center",
                     font=selected_font, fill=text_color)
     img.save("quote.png")
+    img.show()
+
+def post_img(uname,pwd,caption="Quote Upload"):
+    ''' Uses instapy-cli library (pip install instapy-cli).
+        Post image on Instagram on the profile with username 'uname' and password 'pwd' & optional 'caption' '''
+
+    with client(uname,pwd) as cli:
+        cli.upload('quote.png',caption)
+
 def scrape_quote():
     """This function scrapes a random quote from internet along with its
      author and tags related to it. """
@@ -53,6 +63,8 @@ def scrape_quote():
     # tags_list = [x.text for x in tags_soup]
     data = [quote_text, author]
     return data
+
 QUOTE = (" ~ ").join(scrape_quote())
 print(QUOTE)
 generate_pic()
+post_img('hakovut','1qaz2wsx','First Pic #Test')
